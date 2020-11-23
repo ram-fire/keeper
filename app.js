@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const someOtherPlaintextPassword = 'not_bacon';
 
-var uri="mongodb+srv://sachin:sachinrajjjj@cluster0.5zxgy.mongodb.net/keeperv2?retryWrites=true&w=majority";
+var uri=process.env.ATLAS_URI;
 mongoose.connect(uri,{useNewUrlParser:true , useCreateIndex:true , useUnifiedTopology: true ,useFindAndModify:false });
 
 const app=express();
@@ -122,4 +122,4 @@ app.listen(process.env.PORT || 5000,function(){
     console.log("server is runnig at 5000.. ");
 });
 
-// https://damp-woodland-99459.herokuapp.com/
+// https://radiant-reaches-85700.herokuapp.com/
