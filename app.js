@@ -26,21 +26,31 @@ const Note=new mongoose.model("note",noteSchema);
 const User=new mongoose.model("user",userSchema);
 
 app.post("/register",function(req,res){
-    bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
-        const newUser =new User({
-            fullname:req.body.fullname,
-            username:req.body.username,
-            password:hash,
-            notes:[]
-        });
-        newUser.save(function(err){
-            if(err) console.log(err);
-            else
-            {
-                res.json("added");
-            }
-        });
-    });
+    User.findOne({username:req.body.username},function(err,foundUser)
+    {
+        if(!foundUser)
+        {
+            bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
+                const newUser =new User({
+                    fullname:req.body.fullname,
+                    username:req.body.username,
+                    password:hash,
+                    notes:[]
+                });
+                newUser.save(function(err){
+                    if(err) console.log(err);
+                    else
+                    {
+                        res.json("added");
+                    }
+                });
+            });
+        }
+        else
+        {
+            res.json("already exist");
+        }    
+    });       
 });
 
 app.post("/login",function(req,res){
